@@ -4,7 +4,8 @@ resource "tanzu-mission-control_ekscluster" "tf_eks_cluster" {
   region          = var.k8_region
   name            = "sandbox-eks"
 
-  ready_wait_timeout = "45m" // Wait time for cluster operations to finish (default: 30m).
+  ready_wait_timeout = "30m" // Wait time for cluster operations to finish (default: 30m).
+  wait_for_kubeconfig = true
   
   depends_on = [
     tanzu-mission-control_cluster_group.create_cluster_group
@@ -87,10 +88,10 @@ resource "tanzu-mission-control_ekscluster" "tf_eks_cluster" {
     }
   }
 }
-data "shell_script" "tmc_kubeconfig" {
-    lifecycle_commands {
-        read = <<-EOF
-          echo "{\"kubeconfig\": \"$(tanzu tmc cluster kubeconfig get eks.${var.credential_name}.${var.region}.${tanzu-mission-control_ekscluster.tf_eks_cluster.name} -m eks -p eks | base64)\"}" 
-        EOF
-    }
-}
+#data "shell_script" "tmc_kubeconfig" {
+#    lifecycle_commands {
+#        read = <<-EOF
+#          echo "{\"kubeconfig\": \"$(tanzu tmc cluster kubeconfig get eks.${var.credential_name}.${var.region}.${tanzu-mission-control_ekscluster.tf_eks_cluster.name} -m eks -p eks | base64)\"}" 
+#        EOF
+#    }
+#}
