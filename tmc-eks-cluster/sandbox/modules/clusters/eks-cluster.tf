@@ -26,7 +26,7 @@ resource "tanzu-mission-control_ekscluster" "tf_eks_cluster" {
     config {
       role_arn = var.arn_control
 
-      kubernetes_version = "1.26" // Required
+      kubernetes_version = "1.27" // Required
       tags               = var.tags
       
       kubernetes_network_config {
